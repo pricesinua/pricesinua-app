@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react"
 
-import { products as productsEndpoint} from "../endpoints"
+import { products as productsEndpoint } from "../endpoints"
 
 export default function ProductList() {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch(productsEndpoint).then((response) => response.json()).then((json) => {
-      console.log(json)
-      setProducts(json)
-    })
+    fetch(productsEndpoint)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json)
+        setProducts(json)
+      })
   }, [])
 
-  return(
+  return (
     <div className="card">
       <div className="card-header">
         <h3 className="card-title">Products</h3>
