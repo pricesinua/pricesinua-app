@@ -20,7 +20,7 @@ export default function ProductList() {
                   ean: product.ean,
                   title: product.title,
                   currency: product.currency,
-                  gallery: product.gallery
+                  img: product.img
                 }]))
             })
         });
