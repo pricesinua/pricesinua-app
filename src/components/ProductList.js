@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react"
 
-import { products as productsEndpoint } from "../endpoints"
+import { products as productsEdge, store as storeEdge } from "../endpoints"
 
 export default function ProductList() {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch(productsEndpoint)
-      .then((response) => response.json())
-      .then((json) => {
-        setProducts(json)
+    fetch(productsEdge)
+      .then(response => response.json())
+      .then((eans) => {
+        eans.slice(0, 65).forEach(ean => {
+          fetch(`${storeEdge}/Ean/${ean}`)
+            .then(response => response.json())
+            .then(stores => {
+              const storeId = stores.find(storeId => storeId != null)
+              fetch(`https://stores-api.zakaz.ua/stores/${storeId}/products/${ean}`)
+                .then(response => response.json())
+                .then(product => setProducts(products => [...products, {
+                  ean: product.ean,
+                  title: product.title,
+                  currency: product.currency,
+                  gallery: product.gallery
+                }]))
+            })
+        });
       })
   }, [])
 
@@ -21,7 +35,7 @@ export default function ProductList() {
 
       <div className="list-group list-group-flush overflow-auto">
         {products.map((product) => (
-          <div key={product} className="list-group-item">{product}</div>
+          <div key={product.ean} className="list-group-item">{product.title}</div>
         ))}
       </div>
     </div>
