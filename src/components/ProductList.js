@@ -35,7 +35,15 @@ export default function ProductList() {
 
       <div className="list-group list-group-flush overflow-auto">
         {products.map((product) => (
-          <div key={product.ean} className="list-group-item">{product.title}</div>
+          <div key={product.ean} className="list-group-item">
+            <div className="row align-items-center">
+              <div className="col-auto">
+                <span className="avatar" style={{backgroundImage: `url(${product.img.s150x150})`}}/>
+              </div>
+
+              <div className="col">{product.title}</div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
