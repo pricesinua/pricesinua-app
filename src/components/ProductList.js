@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 
 import { products as productsEdge, store as storeEdge } from "../endpoints"
 
+const pageItemsLimit = 20
+
 export default function ProductList() {
   const [products, setProducts] = useState([])
 
@@ -9,7 +11,7 @@ export default function ProductList() {
     fetch(productsEdge)
       .then(response => response.json())
       .then((eans) => {
-        eans.slice(0, 65).forEach(ean => {
+        eans.slice(0, pageItemsLimit).forEach(ean => {
           fetch(`${storeEdge}/Ean/${ean}`)
             .then(response => response.json())
             .then(stores => {
