@@ -21,7 +21,7 @@ export default function ProductList() {
               title: product.title,
               currency: product.currency,
               img: product.img
-            }])
+            }].sort((current, next) => current.title.localeCompare(next.title)))
           })
         })
       });
