@@ -1,30 +1,31 @@
 import { useEffect, useState } from "react"
-
-import { products as productsEdge, store as storeEdge } from "../endpoints"
+import { priceobserver, zakazua } from "../axios"
 
 export default function ProductList() {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch(productsEdge)
-      .then(response => response.json())
-      .then((eans) => {
-        eans.forEach(ean => {
-          fetch(`${storeEdge}/Ean/${ean}`)
-            .then(response => response.json())
-            .then(stores => {
-              const storeId = stores.find(storeId => storeId != null)
-              fetch(`https://stores-api.zakaz.ua/stores/${storeId}/products/${ean}`)
-                .then(response => response.json())
-                .then(product => setProducts(products => [...products, {
-                  ean: product.ean,
-                  title: product.title,
-                  currency: product.currency,
-                  img: product.img
-                }]))
-            })
-        });
-      })
+    priceobserver.get(`/store/products`).then(response => {
+      const eans = response.data
+
+      eans.forEach(ean => {
+        priceobserver.get(`/store/ean/${ean}`).then(response => {
+          const stores = response.data
+          const storeId = stores.find(storeId => storeId != null)
+
+          zakazua.get(`/stores/${storeId}/products/${ean}`).then(response => {
+            const product = response.data
+
+            setProducts(products => [...products, {
+              ean: product.ean,
+              title: product.title,
+              currency: product.currency,
+              img: product.img
+            }])
+          })
+        })
+      });
+    })
   }, [])
 
   return (
