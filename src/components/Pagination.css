@@ -1,0 +1,24 @@
+.pagination-slash {
+  margin: 8px 12px 0px 12px;
+}
+
+.pagination-slash::before{
+  margin: 8px 12px 0px 12px;
+  content: "/";
+}
+
+.pagination-input input {
+  box-sizing: border-box;
+  text-align: center;
+  outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

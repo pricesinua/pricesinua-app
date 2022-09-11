@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { priceobserver, zakazua } from "../axios"
+import Pagination from "./Pagination"
 
 export default function ProductList() {
   const [products, setProducts] = useState([])
@@ -46,6 +47,10 @@ export default function ProductList() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="card-footer">
+        <Pagination></Pagination>
       </div>
     </div>
   )
