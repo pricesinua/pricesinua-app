@@ -14,8 +14,8 @@ export default function Pagination(props) {
         </a>
       </li>
 
-      <li className="page-item pagination" title="1/5">
-        <input className="page-item pagination-input form-control" type="number" id="page" name="page" min="1" max="5" defaultValue={1} />
+      <li className="page-item d-flex" title="1/5">
+        <input className="pagination-input form-control" type="number" id="page" name="page" min="1" max="5" defaultValue={1} />
         <span className="pagination-slash">5</span>
       </li>
 

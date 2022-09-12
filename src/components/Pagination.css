@@ -2,12 +2,12 @@
   margin: 8px 12px 0px 12px;
 }
 
-.pagination-slash::before{
+.pagination-slash::before {
   margin: 8px 12px 0px 12px;
   content: "/";
 }
 
-.pagination-input input {
+input.pagination-input {
   box-sizing: border-box;
   text-align: center;
   outline: none;
