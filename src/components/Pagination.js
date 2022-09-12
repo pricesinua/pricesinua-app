@@ -4,7 +4,7 @@ export default function Pagination(props) {
   return (
     <ul className="pagination d-flex align-items-baseline">
       <li className="page-item">
-        <a className="page-link" href="#" aria-label="Previous">
+        <a className="page-link" href="#" aria-label="First">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
@@ -25,7 +25,7 @@ export default function Pagination(props) {
         </a>
       </li>
       <li className="page-item">
-        <a className="page-link" href="#" aria-label="Next">
+        <a className="page-link" href="#" aria-label="Last">
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
