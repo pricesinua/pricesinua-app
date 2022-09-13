@@ -4,9 +4,17 @@ import Pagination from "./Pagination"
 
 export default function ProductList() {
   const [products, setProducts] = useState([])
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  
+  const size = 20
 
   useEffect(() => {
-    priceobserver.get(`/store/products`).then(response => {
+    setProducts([])
+
+    priceobserver.get(`/store/products?size=${size}&page=${page}`).then(response => {
+      setTotal(response.headers['x-total-count'])
+
       const eans = response.data
 
       eans.forEach(ean => {
@@ -27,7 +35,7 @@ export default function ProductList() {
         })
       });
     })
-  }, [])
+  }, [page])
 
   return (
     <div className="card">
@@ -50,7 +58,7 @@ export default function ProductList() {
       </div>
 
       <div className="card-footer">
-        <Pagination></Pagination>
+        <Pagination page={page} setPage={setPage} total={total} size={size}></Pagination>
       </div>
     </div>
   )
