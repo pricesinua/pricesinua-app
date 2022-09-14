@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import "./Pagination.css"
 
 export default function Pagination(props) {
-  const { page, setPage, total, size, defaultPage = 1 } = props
+  const { page, setPage, total, size } = props
 
   const [pageCount, setPageCount] = useState(0)
 
@@ -37,7 +37,6 @@ export default function Pagination(props) {
 
   useEffect(() => {
     setPageCount(calculatePageCount)
-    setPage(defaultPage)
   }, [])
 
   const classes = "btn page-link" 
