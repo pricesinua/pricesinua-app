@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useEffect, useState } from "react"
 import { priceobserver, zakazua } from "../axios"
 import Pagination from "./Pagination"
@@ -6,23 +7,34 @@ export default function ProductList() {
   const [products, setProducts] = useState([])
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
-  
+
   const size = 20
+
+  const onThrown = (thrown) => {
+    if (axios.isCancel(thrown))
+      console.log("Page change aborted.");
+  }
 
   useEffect(() => {
     setProducts([])
 
-    priceobserver.get(`/store/products?size=${size}&page=${page}`).then(response => {
+    const abortController = new AbortController()
+
+    const config = {
+      signal: abortController.signal
+    }
+
+    priceobserver.get(`/store/products?size=${size}&page=${page}`, config).then(response => {
       setTotal(response.headers['x-total-count'])
 
       const eans = response.data
 
       eans.forEach(ean => {
-        priceobserver.get(`/store/ean/${ean}`).then(response => {
+        priceobserver.get(`/store/ean/${ean}`, config).then(response => {
           const stores = response.data
           const storeId = stores.find(storeId => storeId != null)
 
-          zakazua.get(`/stores/${storeId}/products/${ean}`).then(response => {
+          zakazua.get(`/stores/${storeId}/products/${ean}`, config).then(response => {
             const product = response.data
 
             setProducts(products => [...products, {
@@ -31,10 +43,14 @@ export default function ProductList() {
               currency: product.currency,
               img: product.img
             }].sort((current, next) => current.title.localeCompare(next.title)))
-          })
-        })
+          }).catch(onThrown)
+        }).catch(onThrown)
       });
-    })
+    }).catch(onThrown)
+
+    return () => {
+      abortController.abort()
+    }
   }, [page])
 
   return (
