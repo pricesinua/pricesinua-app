@@ -12,7 +12,7 @@ export default function ProductList() {
 
   const onThrown = (thrown) => {
     if (axios.isCancel(thrown))
-      console.log("Page change aborted.");
+      console.log(`Page ${page} load aborted`);
   }
 
   useEffect(() => {
