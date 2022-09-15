@@ -54,7 +54,7 @@ export default function ProductList() {
   }, [page])
 
   return (
-    <div className="card">
+    <div className="card" style={{maxHeight: "inherit"}}>
       <div className="card-header">
         <h3 className="card-title">Products</h3>
       </div>
