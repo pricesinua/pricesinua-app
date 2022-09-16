@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { priceobserver, zakazua } from "../axios"
 import Pagination from "./Pagination"
+import Search from "./Search"
 
 export default function ProductList() {
   const [products, setProducts] = useState([])
@@ -54,9 +55,10 @@ export default function ProductList() {
   }, [page])
 
   return (
-    <div className="card" style={{maxHeight: "inherit"}}>
-      <div className="card-header">
+    <div className="card" style={{ maxHeight: "inherit" }}>
+      <div className="card-header d-flex flex-sm-row flex-column justify-content-sm-between">
         <h3 className="card-title">Products</h3>
+          <Search />
       </div>
 
       <div className="list-group list-group-flush overflow-auto">
