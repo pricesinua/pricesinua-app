@@ -28,7 +28,6 @@ export default function ProductList() {
   const [products, setProducts] = useState([])
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
-  const [loadingCount, setLoadingCount] = useState(size)
 
   const [itemPlaceholders, setItemPlaceholders] = useState([])
 
@@ -40,10 +39,6 @@ export default function ProductList() {
   useEffect(() => {
     setItemPlaceholders(generateItemPlaceholders(size))
   }, [page])
-
-  useEffect(() => {
-    setItemPlaceholders(placeholders => placeholders.slice(1, -1))
-  }, [loadingCount])
 
   useEffect(() => {
     setProducts([])
@@ -58,8 +53,6 @@ export default function ProductList() {
       setTotal(response.headers['x-total-count'])
 
       const eans = response.data
-
-      setLoadingCount(eans.length)
 
       eans.forEach(ean => {
         priceobserver.get(`/store/ean/${ean}`, config).then(response => {
@@ -76,7 +69,7 @@ export default function ProductList() {
               img: product.img
             }].sort((current, next) => current.title.localeCompare(next.title)))
 
-            setLoadingCount(loading => loading - 1)
+            setItemPlaceholders(placeholders => placeholders.slice(1, -1))
           }).catch(onThrown)
         }).catch(onThrown)
       });
