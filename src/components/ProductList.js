@@ -92,7 +92,7 @@ export default function ProductList() {
           <div key={product.ean} className="list-group-item">
             <div className="row align-items-center">
               <div className="col-auto">
-                <img className="avatar" src={product.img.s150x150} />
+                <img className="avatar" src={product.img.s150x150} alt=""/>
               </div>
 
               <div className="col">{product.title}</div>
