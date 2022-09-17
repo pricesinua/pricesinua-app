@@ -1,20 +1,49 @@
 import axios from "axios"
+
 import { useEffect, useState } from "react"
 import { priceobserver, zakazua } from "../axios"
+
 import Pagination from "./Pagination"
 import Search from "./Search"
 
+function generateItemPlaceholders(count) {
+  return new Array(count).fill({}).map((_value, index) =>
+    <div key={index} className="list-group-item">
+      <div className="row align-items-center">
+        <div className="col-auto">
+          <div className="avatar placeholder"></div>
+        </div>
+
+        <div className="col">
+          <div className={`placeholder col-${((Math.random() * 3) + 3).toFixed()}`}></div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function ProductList() {
+  const size = 20
+
   const [products, setProducts] = useState([])
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
+  const [loadingCount, setLoadingCount] = useState(size)
 
-  const size = 20
+  const [itemPlaceholders, setItemPlaceholders] = useState([])
 
   const onThrown = (thrown) => {
     if (axios.isCancel(thrown))
       console.log(`Page ${page} load aborted`);
   }
+
+  useEffect(() => {
+    setItemPlaceholders(generateItemPlaceholders(size))
+  }, [page])
+
+  useEffect(() => {
+    setItemPlaceholders(placeholders => placeholders.slice(1, -1))
+  }, [loadingCount])
 
   useEffect(() => {
     setProducts([])
@@ -30,6 +59,8 @@ export default function ProductList() {
 
       const eans = response.data
 
+      setLoadingCount(eans.length)
+
       eans.forEach(ean => {
         priceobserver.get(`/store/ean/${ean}`, config).then(response => {
           const stores = response.data
@@ -44,6 +75,8 @@ export default function ProductList() {
               currency: product.currency,
               img: product.img
             }].sort((current, next) => current.title.localeCompare(next.title)))
+
+            setLoadingCount(loading => loading - 1)
           }).catch(onThrown)
         }).catch(onThrown)
       });
@@ -58,7 +91,7 @@ export default function ProductList() {
     <div className="card" style={{ maxHeight: "inherit" }}>
       <div className="card-header d-flex flex-sm-row flex-column justify-content-sm-between">
         <h3 className="card-title">Products</h3>
-          <Search />
+        <Search />
       </div>
 
       <div className="list-group list-group-flush overflow-auto">
@@ -72,7 +105,7 @@ export default function ProductList() {
               <div className="col">{product.title}</div>
             </div>
           </div>
-        ))}
+        )).concat(itemPlaceholders)}
       </div>
 
       <div className="card-footer">
