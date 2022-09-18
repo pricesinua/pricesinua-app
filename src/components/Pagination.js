@@ -45,12 +45,12 @@ export default function Pagination(props) {
   return (
     <ul className="pagination d-flex align-items-baseline">
       <li className="page-item">
-        <a className={page !== 1 ? classes : disabledClasses} aria-label="First" onClick={setFirstPage}>
+        <a className={page > 1 ? classes : disabledClasses} aria-label="First" onClick={setFirstPage}>
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
       <li className="page-item">
-        <a className={page !== 1 ? classes : disabledClasses} aria-label="Previous" onClick={setPreviousPage}>
+        <a className={page > 1 ? classes : disabledClasses} aria-label="Previous" onClick={setPreviousPage}>
           <span aria-hidden="true">&lsaquo;</span>
         </a>
       </li>
@@ -62,12 +62,12 @@ export default function Pagination(props) {
       </li>
 
       <li className="page-item">
-        <a className={page !== pageCount ? classes : disabledClasses} aria-label="Next" onClick={setNextPage}>
+        <a className={page < pageCount ? classes : disabledClasses} aria-label="Next" onClick={setNextPage}>
           <span aria-hidden="true">&rsaquo;</span>
         </a>
       </li>
       <li className="page-item">
-        <a className={page !== pageCount ? classes : disabledClasses} aria-label="Last" onClick={setLastPage}>
+        <a className={page < pageCount ? classes : disabledClasses} aria-label="Last" onClick={setLastPage}>
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
