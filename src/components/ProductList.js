@@ -81,7 +81,7 @@ export default function ProductList() {
   }, [page])
 
   return (
-    <div className="card" style={{ maxHeight: "inherit" }}>
+    <div className="card placeholder-glow" style={{ maxHeight: "inherit" }}>
       <div className="card-header d-flex flex-sm-row flex-column justify-content-sm-between">
         <h3 className="card-title">Products</h3>
         <Search />
