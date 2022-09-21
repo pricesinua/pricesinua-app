@@ -22,6 +22,22 @@ function generateItemPlaceholders(count) {
   )
 }
 
+function ProductItem(props) {
+  const { product } = props
+
+  return (
+    <div key={product.ean} className="list-group-item">
+      <div className="row align-items-center">
+        <div className="col-auto">
+          <img className="avatar" src={product.img.s150x150} alt="" />
+        </div>
+
+        <div className="col">{product.title}</div>
+      </div>
+    </div>
+  )
+}
+
 export default function ProductList() {
   const size = 20
 
@@ -88,17 +104,7 @@ export default function ProductList() {
       </div>
 
       <div className="list-group list-group-flush overflow-auto">
-        {products.map((product) => (
-          <div key={product.ean} className="list-group-item">
-            <div className="row align-items-center">
-              <div className="col-auto">
-                <img className="avatar" src={product.img.s150x150} alt=""/>
-              </div>
-
-              <div className="col">{product.title}</div>
-            </div>
-          </div>
-        )).concat(itemPlaceholders)}
+        {products.map((product) => <ProductItem product={product} />).concat(itemPlaceholders)}
       </div>
 
       <div className="card-footer">
