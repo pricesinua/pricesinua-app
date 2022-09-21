@@ -6,6 +6,12 @@ import { priceobserver, zakazua } from "../axios"
 import Pagination from "./Pagination"
 import Search from "./Search"
 
+function randomIntegerInRange(begin, end) {
+  const min = Math.ceil(begin);
+  const max = Math.floor(end);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function generateItemPlaceholders(count) {
   return new Array(count).fill({}).map((_value, index) =>
     <div key={index} className="list-group-item placeholder-glow">
@@ -15,7 +21,7 @@ function generateItemPlaceholders(count) {
         </div>
 
         <div className="col">
-          <div className={`placeholder col-${((Math.random() * 3) + 3).toFixed()}`}></div>
+          <div className={`placeholder col-${randomIntegerInRange(3, 6)}`}></div>
         </div>
       </div>
     </div>
