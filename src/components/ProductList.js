@@ -14,7 +14,7 @@ function randomIntegerInRange(begin, end) {
 
 function generateItemPlaceholders(count) {
   return new Array(count).fill({}).map((_value, index) =>
-    <div key={index} className="list-group-item placeholder-glow">
+    <div className="list-group-item placeholder-glow" key={index}>
       <div className="row align-items-center">
         <div className="col-auto">
           <div className="avatar placeholder"></div>
@@ -32,7 +32,7 @@ function ProductItem(props) {
   const { product } = props
 
   return (
-    <div key={product.ean} className="list-group-item">
+    <div className="list-group-item" key={product.ean}>
       <div className="row align-items-center">
         <div className="col-auto">
           <img className="avatar" src={product.img.s150x150} alt="" />
