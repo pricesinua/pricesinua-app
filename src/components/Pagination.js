@@ -6,6 +6,8 @@ export default function Pagination(props) {
 
   const [pageCount, setPageCount] = useState(0)
 
+  const percentOfPageCount = () => Math.ceil(pageCount / 25)
+
   const setFirstPage = () => {
     setPage(1)
   }
@@ -20,6 +22,14 @@ export default function Pagination(props) {
 
   const setNextPage = () => {
     setPage((page) => page + 1)
+  }
+
+  const setPreviousSkippedPage = () => {
+    setPage((page) => page - percentOfPageCount())
+  }
+
+  const setNextSkippedPage = () => {
+    setPage((page) => page + percentOfPageCount())
   }
 
   const setInputPage = (event) => {
@@ -46,6 +56,11 @@ export default function Pagination(props) {
     <ul className="pagination d-flex align-items-baseline">
       <li className="page-item">
         <a className={page > 1 ? classes : disabledClasses} aria-label="First" onClick={setFirstPage}>
+          <span aria-hidden="true">|&lsaquo;</span>
+        </a>
+      </li>
+      <li className="page-item">
+        <a className={page - percentOfPageCount() > 1 ? classes : disabledClasses} aria-label="Previous skip" onClick={setPreviousSkippedPage}>
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
@@ -67,8 +82,13 @@ export default function Pagination(props) {
         </a>
       </li>
       <li className="page-item">
-        <a className={page < pageCount ? classes : disabledClasses} aria-label="Last" onClick={setLastPage}>
+        <a className={page + percentOfPageCount() < pageCount ? classes : disabledClasses} aria-label="Next skip" onClick={setNextSkippedPage}>
           <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      <li className="page-item">
+        <a className={page < pageCount ? classes : disabledClasses} aria-label="Last" onClick={setLastPage}>
+          <span aria-hidden="true">&rsaquo;|</span>
         </a>
       </li>
     </ul>
