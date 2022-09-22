@@ -1,9 +1,9 @@
-.pagination-slash {
+.pagination-slash,
+.pagination-slash::before {
   margin: 8px 12px 0px 12px;
 }
 
 .pagination-slash::before {
-  margin: 8px 12px 0px 12px;
   content: "/";
 }
 
