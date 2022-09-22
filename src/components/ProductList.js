@@ -32,7 +32,7 @@ function ProductItem(props) {
   const { product } = props
 
   return (
-    <div className="list-group-item" key={product.ean}>
+    <div className="list-group-item">
       <div className="row align-items-center">
         <div className="col-auto">
           <img className="avatar" src={product.img.s150x150} alt="" />
@@ -110,7 +110,7 @@ export default function ProductList() {
       </div>
 
       <div className="list-group list-group-flush overflow-auto">
-        {products.map((product) => <ProductItem product={product} />).concat(itemPlaceholders)}
+        {products.map((product) => <ProductItem product={product} key={product.ean}/>).concat(itemPlaceholders)}
       </div>
 
       <div className="card-footer">
