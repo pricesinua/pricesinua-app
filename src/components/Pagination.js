@@ -50,7 +50,7 @@ export default function Pagination(props) {
   }, [])
 
   const classes = "btn page-link" 
-  const disabledClasses = classes + ' disabled'
+  const disabledClasses = `disabled ${classes}`
 
   return (
     <ul className="pagination d-flex align-items-baseline">
