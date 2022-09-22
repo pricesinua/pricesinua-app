@@ -25,11 +25,11 @@ export default function Pagination(props) {
   }
 
   const setPreviousSkippedPage = () => {
-    setPage((page) => page - percentOfPageCount())
+    setPage((page) => Math.max(page - percentOfPageCount(), 1))
   }
 
   const setNextSkippedPage = () => {
-    setPage((page) => page + percentOfPageCount())
+    setPage((page) => Math.min(page + percentOfPageCount(), pageCount))
   }
 
   const setInputPage = (event) => {
@@ -60,7 +60,7 @@ export default function Pagination(props) {
         </a>
       </li>
       <li className="page-item">
-        <a className={page - percentOfPageCount() > 1 ? classes : disabledClasses} aria-label="Previous skip" onClick={setPreviousSkippedPage}>
+        <a className={page > 1 ? classes : disabledClasses} aria-label="Previous skip" onClick={setPreviousSkippedPage}>
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
@@ -82,7 +82,7 @@ export default function Pagination(props) {
         </a>
       </li>
       <li className="page-item">
-        <a className={page + percentOfPageCount() < pageCount ? classes : disabledClasses} aria-label="Next skip" onClick={setNextSkippedPage}>
+        <a className={page < pageCount ? classes : disabledClasses} aria-label="Next skip" onClick={setNextSkippedPage}>
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>
