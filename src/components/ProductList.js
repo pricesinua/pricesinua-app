@@ -88,7 +88,7 @@ export default function ProductList() {
               title: product.title,
               currency: product.currency,
               img: product.img
-            }].sort((current, next) => current.title.localeCompare(next.title)))
+            }])
 
             setItemPlaceholders(placeholders => placeholders.slice(1, -1))
           }).catch(onThrown)
@@ -109,7 +109,9 @@ export default function ProductList() {
       </div>
 
       <div className="list-group list-group-flush overflow-auto">
-        {products.map((product, index) => <ProductItem product={product} key={index}/>).concat(itemPlaceholders)}
+        {products.sort((current, next) => current.title.localeCompare(next.title))
+          .map((product, index) => <ProductItem product={product} key={index} />)
+          .concat(itemPlaceholders)}
       </div>
 
       <div className="card-footer">
