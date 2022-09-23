@@ -47,6 +47,8 @@ function ProductItem(props) {
 export default function ProductList() {
   const size = 20
 
+  const [searchText, setSearchText] = useState("")
+
   const [products, setProducts] = useState([])
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
@@ -106,7 +108,7 @@ export default function ProductList() {
     <div className="card" style={{ maxHeight: "inherit" }}>
       <div className="card-header d-flex flex-sm-row flex-column justify-content-sm-between">
         <h3 className="card-title">Products</h3>
-        <Search />
+        <Search text={searchText} setText={setSearchText} />
       </div>
 
       <div className="list-group list-group-flush overflow-auto">
