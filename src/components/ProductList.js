@@ -112,7 +112,7 @@ export default function ProductList() {
       </div>
 
       <div className="list-group list-group-flush overflow-auto">
-        {products.map((product) => <ProductItem product={product} key={product.ean}/>).concat(itemPlaceholders)}
+        {products.map((product, index) => <ProductItem product={product} key={index}/>).concat(itemPlaceholders)}
       </div>
 
       <div className="card-footer">
