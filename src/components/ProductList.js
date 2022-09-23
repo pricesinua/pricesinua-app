@@ -61,11 +61,8 @@ export default function ProductList() {
   }
 
   useEffect(() => {
-    setItemPlaceholders(generateItemPlaceholders(size))
-  }, [page])
-
-  useEffect(() => {
     setProducts([])
+    setItemPlaceholders(generateItemPlaceholders(size))
 
     const abortController = new AbortController()
 
