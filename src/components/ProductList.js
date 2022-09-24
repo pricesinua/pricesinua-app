@@ -48,6 +48,7 @@ export default function ProductList() {
   const size = 20
 
   const [searchText, setSearchText] = useState("")
+  const [searchProducts, setSearchProducts] = useState([])
 
   const [products, setProducts] = useState([])
   const [page, setPage] = useState(1)
@@ -55,10 +56,49 @@ export default function ProductList() {
 
   const [itemPlaceholders, setItemPlaceholders] = useState([])
 
-  const onThrown = (thrown) => {
-    if (axios.isCancel(thrown))
-      console.log(`Page ${page} load aborted`);
-  }
+  useEffect(() => {
+    setPage(1)
+    setTotal(0)
+    setSearchProducts([])
+
+    const abortController = new AbortController()
+
+    const config = {
+      signal: abortController.signal
+    }
+
+    const onThrown = (thrown) => {
+      if (axios.isCancel(thrown))
+        console.log(`Search query aborted`);
+    }
+
+    if (searchText.length) {
+      priceobserver.get(`/store`, config).then(response => {
+        const stores = response.data
+
+        stores.forEach(storeId => {
+          zakazua.get(`/stores/${storeId}/products/search?q=${searchText}`, config).then(response => {
+            const results = response.data.results
+
+            const mappedProducts = results.map(product => {
+              return {
+                ean: product.ean,
+                title: product.title,
+                currency: product.currency,
+                img: product.img
+              }
+            })
+
+            setSearchProducts(searchProducts => [...new Set(searchProducts.concat(mappedProducts))])
+          })
+        })
+      }).catch(onThrown)
+    }
+
+    return () => {
+      abortController.abort()
+    }
+  }, [searchText])
 
   useEffect(() => {
     setProducts([])
@@ -70,36 +110,47 @@ export default function ProductList() {
       signal: abortController.signal
     }
 
-    priceobserver.get(`/store/products?size=${size}&page=${page}`, config).then(response => {
-      setTotal(response.headers['x-total-count'])
+    const onThrown = (thrown) => {
+      if (axios.isCancel(thrown))
+        console.log(`Page ${page} load aborted`);
+    }
 
-      const eans = response.data
+    if (searchProducts.length) {
+      setTotal(searchProducts.length)
+      setProducts(searchProducts.slice((page - 1) * size, page * size))
+      setItemPlaceholders([])
+    } else {
+      priceobserver.get(`/store/products?size=${size}&page=${page}`, config).then(response => {
+        setTotal(response.headers['x-total-count'])
 
-      eans.forEach(ean => {
-        priceobserver.get(`/store/ean/${ean}`, config).then(response => {
-          const stores = response.data
-          const storeId = stores.find(storeId => storeId != null)
+        const eans = response.data
 
-          zakazua.get(`/stores/${storeId}/products/${ean}`, config).then(response => {
-            const product = response.data
+        eans.forEach(ean => {
+          priceobserver.get(`/store/ean/${ean}`, config).then(response => {
+            const stores = response.data
+            const storeId = stores.find(storeId => storeId != null)
 
-            setProducts(products => [...products, {
-              ean: product.ean,
-              title: product.title,
-              currency: product.currency,
-              img: product.img
-            }])
+            zakazua.get(`/stores/${storeId}/products/${ean}`, config).then(response => {
+              const product = response.data
 
-            setItemPlaceholders(placeholders => placeholders.slice(1, -1))
+              setProducts(products => [...products, {
+                ean: product.ean,
+                title: product.title,
+                currency: product.currency,
+                img: product.img
+              }])
+
+              setItemPlaceholders(placeholders => placeholders.slice(1, -1))
+            }).catch(onThrown)
           }).catch(onThrown)
-        }).catch(onThrown)
-      });
-    }).catch(onThrown)
+        });
+      }).catch(onThrown)
+    }
 
     return () => {
       abortController.abort()
     }
-  }, [page])
+  }, [page, searchProducts])
 
   return (
     <div className="card" style={{ maxHeight: "inherit" }}>
