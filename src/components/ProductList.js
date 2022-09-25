@@ -91,7 +91,8 @@ export default function ProductList() {
               }
             })
 
-            setSearchProducts(searchProducts => [...new Set(searchProducts.concat(mappedProducts))])
+            setSearchProducts(searchProducts => [...new Map(searchProducts.concat(mappedProducts)
+              .map(product => [product.ean, product])).values()])
           })
         })
       }).catch(onThrown)
