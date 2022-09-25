@@ -1,6 +1,7 @@
 import { Route } from "react-router-dom"
 import { Routes } from "react-router-dom"
 
+import ProductChart from "./ProductChart"
 import ProductList from "./ProductList"
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <div className="container-xxl">
       <Routes>
         <Route path="/" element={<WrappedProductList />}/>
+        <Route path="/product/:ean" element={<ProductChart />}/>
       </Routes>
     </div>
   )

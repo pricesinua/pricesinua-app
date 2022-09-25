@@ -6,6 +6,8 @@ import { priceobserver, zakazua } from "../axios"
 import Pagination from "./Pagination"
 import Search from "./Search"
 
+import { Link } from "react-router-dom"
+
 function randomIntegerInRange(begin, end) {
   const min = Math.ceil(begin);
   const max = Math.floor(end);
@@ -38,7 +40,7 @@ function ProductItem(props) {
           <img className="avatar" src={product.img.s150x150} alt="" />
         </div>
 
-        <div className="col">{product.title}</div>
+        <div className="col"><Link to={`/product/${product.ean}`}>{product.title}</Link></div>
       </div>
     </div>
   )
