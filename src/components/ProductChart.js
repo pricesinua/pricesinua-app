@@ -46,7 +46,7 @@ export default function ProductChart() {
           },
           stroke: {
             width: 1,
-            curve: "stepline",
+            curve: "smooth",
           },
         }} series={[{
           name: "Price",
