@@ -37,10 +37,20 @@ export default function ProductChart() {
       </div>
 
       <div className="card-body">
-        <Chart options={{xaxis: {
-          type: "datetime"
-        }}} series={[{
-          data: pricestamps
+        <Chart options={{
+          dataLabels: {
+            enabled: false,
+          },
+          xaxis: {
+            type: "datetime",
+          },
+          stroke: {
+            width: 1,
+            curve: "stepline",
+          },
+        }} series={[{
+          name: "Price",
+          data: pricestamps,
         }]} type="area" />
       </div>
     </div>
