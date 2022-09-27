@@ -6,7 +6,7 @@ import { BrowserRouter as Router} from 'react-router-dom'
 
 import '@tabler/core/dist/css/tabler.min.css'
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+const root = ReactDOM.createRoot(document.body)
 root.render(
   <Router>
     <App />
